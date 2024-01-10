@@ -12,7 +12,7 @@ import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, Li
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, PointElement, LineElement)
 
 export default {
-    name: 'LineDiagram',
+    name: 'LossDiagram',
     components: { Bar, Line },
     props: {
         rawChartData: Object,
@@ -54,7 +54,7 @@ export default {
                 },
                 plugins: {
                     title: {
-                        text: 'Wykres',
+                        text: 'Wykres funkcji straty dla podanych wartości',
                         display: true,
                         font: {
                             size: 24,

@@ -34,14 +34,16 @@
           <p class="mt-3">
             Znalezione pliki:
           </p>
-          <div v-for="(fileName, key) in fileNames" :key="key" class="py-2">
-            <label class="d-flex justify-content-around">
-              {{ fileName }}
-              <input class="checkbox-input" type="checkbox" v-model="selectedFiles" :value="key">
-              <span class="checkbox-tick">
-                <b>✓</b>
-              </span>
-            </label>
+          <div class="p-1" style="max-height: 300px; overflow-y: scroll; background-color: #789;">
+            <div v-for="(fileName, key) in fileNames" :key="key" class="py-2 m-2" style="background-color: #EEF; box-shadow: 2px 2px 2px black;">
+              <label class="d-flex justify-content-around">
+                {{ fileName }}
+                <input class="checkbox-input" type="checkbox" v-model="selectedFiles" :value="key">
+                <span class="checkbox-tick">
+                  <b>✓</b>
+                </span>
+              </label>
+            </div>
           </div>
           <p class="mt-3">
             Zaznacz te, które mają zostać pobrane.
@@ -52,13 +54,112 @@
       </div>
     </div>
 
-    <div v-else class="d-flex w-100">
-      <div class="frame">
-        a
+    <div v-else class="d-flex flex-column justify-content-center w-100">
+
+      <div class="spacing d-flex justify-content-evenly w-100">
+        <div class="frame w-25">
+          <div class="d-flex flex-row justify-content-around" style="height: 90%">
+            <div class="d-flex flex-column w-25">
+              Dane
+              <div class="d-flex flex-column justify-content-evenly" style="height: 100%">
+                <button class="my-2">INP1</button>
+                <button class="my-2">INP2</button>
+                <button class="my-2" disabled>INP3</button>
+                <button class="my-2">INP4</button>
+                <button class="my-2">INP5</button>
+              </div>
+            </div>
+            <div class="w-75">
+              Ustawienia wykresu
+              <div class="d-flex flex-column justify-content-evenly" style="height: 90%">
+
+                <table style="height: 100%;">
+                  <tr>
+                    <td>
+                      <label style="text-align: left;">Tryb:</label>
+                    </td>
+                    <td>
+                      <select>
+                        <option>Strata</option>
+                        <option>H_size vs czas</option>
+                        <option>T_steps vs czas</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>Zakres osi X:</label>
+                    </td>
+                    <td>
+                      <input type="text" size="4"> - <input type="text" size="4">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>Zakres osi Y:</label>
+                    </td>
+                    <td>
+                      <input type="text" size="4"> - <input type="text" size="4">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>Interwał osi X:</label>
+                    </td>
+                    <td>
+                      <input type="text" size="4">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>Interwał osi Y:</label>
+                    </td>
+                    <td>
+                      <input type="text" size="4">
+                    </td>
+                  </tr>
+                </table>
+
+              </div>
+            </div>
+          </div>
+          <div class="d-flex flex-row justify-content-around w-100" style="height: 10%;">
+            <button>Poszerz</button>
+            <button>Przeładuj</button>
+          </div>
+          <!-- Tryb:
+          Zakres osi X:
+          Zakres osi Y:
+          Interwał osi X:
+          Interwał osi Y:
+          <button>INP1</button>
+          <button disabled>INP2</button>
+          <button>Poszerz</button>
+          <button>Przeładuj</button> -->
+        </div>
+        <div class="frame w-100">
+          <LossDiagram :rawChartData="rawChartData.chart1"></LossDiagram>
+        </div>
       </div>
-      <div class="frame w-75">
-        <LineDiagram :rawChartData="rawChartData.chart1"></LineDiagram>
+
+      <div class="spacing d-flex justify-content-evenly w-100">
+        <div class="frame w-25">
+          b
+        </div>
+        <div class="frame w-100">
+          <HSizeDiagram :rawChartData="rawChartData.chart1"></HSizeDiagram>
+        </div>
       </div>
+
+      <div class="spacing d-flex justify-content-evenly w-100">
+        <div class="frame w-25">
+          c
+        </div>
+        <div class="frame w-100">
+          <TStepsDiagram :rawChartData="rawChartData.chart1"></TStepsDiagram>
+        </div>
+      </div>
+
     </div>
 
   </main>
@@ -66,7 +167,9 @@
 
 <script>
 import axios from 'axios';
-import LineDiagram from './components/LineDiagram.vue'
+import LossDiagram from './components/LossDiagram.vue'
+import HSizeDiagram from './components/HSizeDiagram.vue'
+import TStepsDiagram from './components/TStepsDiagram.vue'
 // import Imports from './components/Imports.vue'
 // import Canvas from './components/Canvas.vue'
 // import ChartInfo from './components/ChartInfo.vue'
@@ -74,7 +177,9 @@ import LineDiagram from './components/LineDiagram.vue'
 export default {
   name: 'App',
   components: {
-    LineDiagram,
+    LossDiagram,
+    HSizeDiagram,
+    TStepsDiagram,
     // Imports,
     // Canvas,
     // ChartInfo,
@@ -161,6 +266,11 @@ body {
   background-color: #DEF;
   padding: 2rem;
   border-radius: 0.5rem;
+}
+
+.spacing {
+  margin-top: 4rem;
+  margin-bottom: 4rem;
 }
 
 .checkbox-input {
