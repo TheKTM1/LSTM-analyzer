@@ -1,7 +1,7 @@
 <template>
     <main>
         <h3></h3>
-        <Line :data="chartData" :options="options"/>
+        <Line :data="chartData" :chartTitle="chartTitle" :options="options"/>
     </main>
 </template>
 
@@ -16,6 +16,7 @@ export default {
     components: { Bar, Line },
     props: {
         rawChartData: Object,
+        chartTitle: Number,
     },
     data() {
         return {
@@ -30,7 +31,7 @@ export default {
                     y: {
                         title: {
                             display: true,
-                            text: 'Funkcja straty',
+                            text: 'Czas',
                         }
                     }
                 },
@@ -39,7 +40,7 @@ export default {
                 },
                 plugins: {
                     title: {
-                        text: 'Wykres zależności czasu od rozmiaru warstwy ukrytej dla podanych wartości',
+                        text: this.chartTitle,
                         display: true,
                         font: {
                             size: 24,

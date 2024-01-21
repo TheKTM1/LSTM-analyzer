@@ -56,107 +56,89 @@
 
     <div v-else class="d-flex flex-column justify-content-center w-100">
 
-      <div class="spacing d-flex justify-content-evenly w-100">
-        <div class="frame w-25">
-          <div class="d-flex flex-row justify-content-around" style="height: 90%">
-            <div class="d-flex flex-column w-25">
-              Dane
-              <div class="d-flex flex-column justify-content-evenly" style="height: 100%">
-                <button class="my-2">INP1</button>
-                <button class="my-2">INP2</button>
-                <button class="my-2" disabled>INP3</button>
-                <button class="my-2">INP4</button>
-                <button class="my-2">INP5</button>
+      <div class="spacing d-flex w-100 px-3" style="gap: 1rem">
+        <div class="w-25">
+          <div class="d-flex w-100" style="height: 10%;">
+            <div id="dataSwitch" class="d-flex justify-content-center align-items-center w-50" @click="toggleInput" style="background-color: #DEF; border-top-left-radius: 1rem; border-top-right-radius: 1rem;">Dane</div>
+            <div id="settingsSwitch" class="d-flex justify-content-center align-items-center w-50" @click="toggleSettings" style="background-color: #BCE; border-top-left-radius: 1rem; border-top-right-radius: 1rem;">Ustawienia wykresu</div>
+          </div>
+          <div class="frame" style="height: 90%; border-top-left-radius: 0; border-top-right-radius: 0;">
+
+            <div id="dataPanel" class="p-1" style="height: 90%; overflow-y: scroll; background-color: #BCE; display: flex; flex-direction: column;">
+              <div v-for="(inp, key) in rawChartData.chart1.entries" :key="key" class="frame py-2 m-2">
+                <div class="w-100"> {{ inp.name }} </div>
+                <div class="d-flex justify-content-between">
+                  <label>Nazwa:</label>
+                  <input type="text" v-model="inp.name" />
+                </div>
+                <div class="d-flex justify-content-between">
+                  <label>Rozmiar warstwy ukrytej:</label>
+                  <p> {{ inp.h_size }} </p>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <label>Liczba kroków:</label>
+                  <p> {{ inp.t_steps }} </p>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <label>Liczba unikalnych znaków:</label>
+                  <p> {{ inp.input_text_size }} </p>
+                </div>
               </div>
             </div>
-            <div class="w-75">
-              Ustawienia wykresu
-              <div class="d-flex flex-column justify-content-evenly" style="height: 90%">
 
-                <table style="height: 100%;">
-                  <tr>
-                    <td>
-                      <label style="text-align: left;">Tryb:</label>
-                    </td>
-                    <td>
-                      <select>
-                        <option>Strata</option>
-                        <option>H_size vs czas</option>
-                        <option>T_steps vs czas</option>
-                      </select>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label>Zakres osi X:</label>
-                    </td>
-                    <td>
-                      <input type="text" size="4"> - <input type="text" size="4">
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label>Zakres osi Y:</label>
-                    </td>
-                    <td>
-                      <input type="text" size="4"> - <input type="text" size="4">
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label>Interwał osi X:</label>
-                    </td>
-                    <td>
-                      <input type="text" size="4">
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label>Interwał osi Y:</label>
-                    </td>
-                    <td>
-                      <input type="text" size="4">
-                    </td>
-                  </tr>
-                </table>
-
+            <div id="settingsPanel" class="flex-column justify-content-evenly" style="display: none; height: 100%;">
+              <div class="d-flex">
+                <label class="w-25 d-flex justify-content-base">Tytuł:</label>
+                <div class="w-75 d-flex justify-content-end">
+                  <input type="text" size="24" v-model="chartTitle">
+                </div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <label>Tryb:</label>
+                <div class="w-50">
+                  <select v-model="chartSelected">
+                    <option value="0">Funkcja straty</option>
+                    <option value="1">H_size vs czas</option>
+                    <option value="2">T_steps vs czas</option>
+                  </select>
+                </div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <label>Zakres osi X:</label>
+                <div class="w-50">
+                  <input type="range" min="0" max="10000" step="1000" v-model="xRange"> {{ xRange }}
+                </div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <label>Interwał osi X:</label>
+                <div class="w-50">
+                  <input type="text" size="4" placeholder="1000">
+                </div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <label>Zakres osi Y:</label>
+                <div class="w-50">
+                  <input type="range" min="0" max="200" step="10" v-model="yRange"> {{ yRange }}
+                </div>
+              </div>
+              <div class="d-flex justify-content-between">
+                <label>Interwał osi Y:</label>
+                <div class="w-50">
+                  <input type="text" size="4" placeholder="200">
+                </div>
               </div>
             </div>
-          </div>
-          <div class="d-flex flex-row justify-content-around w-100" style="height: 10%;">
-            <button>Poszerz</button>
-            <button>Przeładuj</button>
-          </div>
-          <!-- Tryb:
-          Zakres osi X:
-          Zakres osi Y:
-          Interwał osi X:
-          Interwał osi Y:
-          <button>INP1</button>
-          <button disabled>INP2</button>
-          <button>Poszerz</button>
-          <button>Przeładuj</button> -->
-        </div>
-        <div class="frame w-100">
-          <LossDiagram :rawChartData="rawChartData.chart1"></LossDiagram>
-        </div>
-      </div>
 
-      <div class="spacing d-flex justify-content-evenly w-100">
-        <div class="frame w-25">
-          b
+          </div>
         </div>
-        <div class="frame w-100">
-          <HSizeDiagram :rawChartData="rawChartData.chart1"></HSizeDiagram>
+        <div v-if="chartSelected == 0" class="frame w-75">
+          <LossDiagram :rawChartData="rawChartData.chart1" :chartTitle="chartTitle"></LossDiagram>
         </div>
-      </div>
-
-      <div class="spacing d-flex justify-content-evenly w-100">
-        <div class="frame w-25">
-          c
+        <div v-else-if="chartSelected == 1" class="frame w-75">
+          <HSizeDiagram :rawChartData="rawChartData.chart1" :chartTitle="chartTitle"></HSizeDiagram>
         </div>
-        <div class="frame w-100">
-          <TStepsDiagram :rawChartData="rawChartData.chart1"></TStepsDiagram>
+        <div v-else class="frame w-75">
+          <TStepsDiagram :rawChartData="rawChartData.chart1" :chartTitle="chartTitle"></TStepsDiagram>
         </div>
       </div>
 
@@ -170,9 +152,6 @@ import axios from 'axios';
 import LossDiagram from './components/LossDiagram.vue'
 import HSizeDiagram from './components/HSizeDiagram.vue'
 import TStepsDiagram from './components/TStepsDiagram.vue'
-// import Imports from './components/Imports.vue'
-// import Canvas from './components/Canvas.vue'
-// import ChartInfo from './components/ChartInfo.vue'
 
 export default {
   name: 'App',
@@ -180,16 +159,16 @@ export default {
     LossDiagram,
     HSizeDiagram,
     TStepsDiagram,
-    // Imports,
-    // Canvas,
-    // ChartInfo,
   },
   data() {
     return {
-      //labels: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2100, 2200, 2300, 2400, 2500, 2600, 2700, 2800, 2900, 3000],
       imported: false,
       fileNames: {},
       selectedFiles: [],
+      chartTitle: 'Wykres funkcji straty dla podanych wartości',
+      chartSelected: 0,
+      xRange: 10000,
+      yRange: 200,
       rawChartData: {
         chart1: {},
       },
@@ -214,7 +193,6 @@ export default {
     },
 
     async startImport() {
-
       let collectFiles = {};
 
       for(let i = 0; i < this.selectedFiles.length; i++){
@@ -244,6 +222,22 @@ export default {
       this.rawChartData.chart1 = collectFiles;
       this.imported = true;
 
+    },
+
+    toggleInput() {
+      document.getElementById("settingsPanel").style.display = "none";
+      document.getElementById("dataPanel").style.display = "flex";
+
+      document.getElementById("dataSwitch").style.backgroundColor = "#DEF";
+      document.getElementById("settingsSwitch").style.backgroundColor = "#BCE";
+    },
+
+    toggleSettings() {
+      document.getElementById("dataPanel").style.display = "none";
+      document.getElementById("settingsPanel").style.display = "flex";
+
+      document.getElementById("dataSwitch").style.backgroundColor = "#BCE";
+      document.getElementById("settingsSwitch").style.backgroundColor = "#DEF";
     },
   },
 }

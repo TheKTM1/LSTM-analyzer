@@ -1,7 +1,7 @@
 <template>
     <main>
         <h3></h3>
-        <Line :data="chartData" :options="options"/>
+        <Line :data="chartData" :chartTitle="chartTitle" :options="options"/>
     </main>
 </template>
 
@@ -16,24 +16,10 @@ export default {
     components: { Bar, Line },
     props: {
         rawChartData: Object,
+        chartTitle: Number,
     },
     data() {
         return {
-            // chartData: {
-            //     labels: this.rawChartData.entries[0].iterations,
-            //     datasets: [
-            //         {
-            //             label: 'H_size = 100',
-            //             borderColor: '#0F0',
-            //             data: this.rawChartData.entries[0].loss,
-            //         },
-            //         {
-            //             label: 'H_size = 200',
-            //             borderColor: '#0FF',
-            //             data: [42, 23, 10, 16, 5, 8, 19, 21, 0, 100, 50, 40, 3, 5, 41, 20, 40, 30, 20],
-            //         }
-            //     ]
-            // },
             options: {
                 scales: {
                     x: {
@@ -54,7 +40,7 @@ export default {
                 },
                 plugins: {
                     title: {
-                        text: 'Wykres funkcji straty dla podanych wartości',
+                        text: this.chartTitle,
                         display: true,
                         font: {
                             size: 24,
