@@ -12,7 +12,7 @@ import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, Li
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, PointElement, LineElement)
 
 export default {
-    name: 'TStepsDiagram',
+    name: 'TimeDiagram',
     components: { Bar, Line },
     props: {
         rawChartData: Object,
@@ -31,7 +31,7 @@ export default {
                     y: {
                         title: {
                             display: true,
-                            text: 'Czas',
+                            text: 'Czas [s]',
                         }
                     }
                 },

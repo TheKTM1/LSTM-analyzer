@@ -64,7 +64,7 @@
           </div>
           <div class="frame" style="height: 90%; border-top-left-radius: 0; border-top-right-radius: 0;">
 
-            <div id="dataPanel" class="p-1" style="height: 90%; overflow-y: scroll; background-color: #BCE; display: flex; flex-direction: column;">
+            <div id="dataPanel" class="p-1" style="height: 600px; overflow: hidden; overflow-y: scroll; background-color: #BCE; display: flex; flex-direction: column; border: 1px solid #BCE">
               <div v-for="(inp, key) in rawChartData.chart1.entries" :key="key" class="frame py-2 m-2">
                 <div class="w-100"> {{ inp.name }} </div>
                 <div class="d-flex justify-content-between">
@@ -78,6 +78,14 @@
                 <div class="d-flex justify-content-between">
                   <label>Liczba kroków:</label>
                   <p> {{ inp.t_steps }} </p>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <label>Prędkość uczenia:</label>
+                  <p> {{ inp.learning_rate }} </p>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <label>Odchylenie standardowe wag:</label>
+                  <p> {{ inp.weight_sd }} </p>
                 </div>
                 <div class="d-flex justify-content-between">
                   <label>Liczba unikalnych znaków:</label>
@@ -98,8 +106,8 @@
                 <div class="w-50">
                   <select v-model="chartSelected">
                     <option value="0">Funkcja straty</option>
-                    <option value="1">H_size vs czas</option>
-                    <option value="2">T_steps vs czas</option>
+                    <option value="1">Zależność od czasu</option>
+                    <option value="2">Zużycie RAM</option>
                   </select>
                 </div>
               </div>
@@ -135,10 +143,10 @@
           <LossDiagram :rawChartData="rawChartData.chart1" :chartTitle="chartTitle"></LossDiagram>
         </div>
         <div v-else-if="chartSelected == 1" class="frame w-75">
-          <HSizeDiagram :rawChartData="rawChartData.chart1" :chartTitle="chartTitle"></HSizeDiagram>
+          <TimeDiagram :rawChartData="rawChartData.chart1" :chartTitle="chartTitle"></TimeDiagram>
         </div>
         <div v-else class="frame w-75">
-          <TStepsDiagram :rawChartData="rawChartData.chart1" :chartTitle="chartTitle"></TStepsDiagram>
+          <RamDiagram :rawChartData="rawChartData.chart1" :chartTitle="chartTitle"></RamDiagram>
         </div>
       </div>
 
@@ -150,15 +158,15 @@
 <script>
 import axios from 'axios';
 import LossDiagram from './components/LossDiagram.vue'
-import HSizeDiagram from './components/HSizeDiagram.vue'
-import TStepsDiagram from './components/TStepsDiagram.vue'
+import TimeDiagram from './components/TimeDiagram.vue'
+import RamDiagram from './components/RamDiagram.vue'
 
 export default {
   name: 'App',
   components: {
     LossDiagram,
-    HSizeDiagram,
-    TStepsDiagram,
+    TimeDiagram,
+    RamDiagram,
   },
   data() {
     return {

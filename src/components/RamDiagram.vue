@@ -1,7 +1,7 @@
 <template>
     <main>
         <h3></h3>
-        <Line :data="chartData" :chartTitle="chartTitle" :options="options"/>
+        <Bar :data="chartData" :chartTitle="chartTitle" :options="options"/>
     </main>
 </template>
 
@@ -12,7 +12,7 @@ import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, Li
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, PointElement, LineElement)
 
 export default {
-    name: 'HSizeDiagram',
+    name: 'RamDiagram',
     components: { Bar, Line },
     props: {
         rawChartData: Object,
@@ -31,7 +31,7 @@ export default {
                     y: {
                         title: {
                             display: true,
-                            text: 'Czas',
+                            text: 'Zużycie RAM [MB]',
                         }
                     }
                 },
@@ -65,8 +65,8 @@ export default {
                     labels: this.rawChartData.entries[0].iterations,
                     datasets: this.rawChartData.entries.map((entry, index) => ({
                         label: entry.name,
-                        borderColor: chartColors[index % chartColors.length],
-                        data: entry.time_total,
+                        backgroundColor: chartColors[index % chartColors.length],
+                        data: entry.ram_usage,
                     })),
                 };
             } else {
