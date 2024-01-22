@@ -229,7 +229,6 @@ export default {
 
       this.rawChartData.chart1 = collectFiles;
       this.imported = true;
-
     },
 
     toggleInput() {

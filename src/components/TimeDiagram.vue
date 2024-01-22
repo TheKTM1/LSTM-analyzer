@@ -16,7 +16,7 @@ export default {
     components: { Bar, Line },
     props: {
         rawChartData: Object,
-        chartTitle: Number,
+        chartTitle: String,
     },
     data() {
         return {
