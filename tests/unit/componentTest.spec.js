@@ -1,5 +1,7 @@
 import { shallowMount } from '@vue/test-utils'
 import LossDiagram from '@/components/LossDiagram.vue'
+import TimeDiagram from '@/components/TimeDiagram.vue'
+import RamDiagram from '@/components/RamDiagram.vue'
 
 // describe('HelloWorld.vue', () => {
 //   it('renders props.msg when passed', () => {
@@ -120,7 +122,7 @@ describe('TimeDiagram.vue', () => {
       }
     }
 
-    const wrapper = shallowMount(LossDiagram, {
+    const wrapper = shallowMount(TimeDiagram, {
       props: propsToPass
     })
 
@@ -129,7 +131,7 @@ describe('TimeDiagram.vue', () => {
 
   it('computes chart data', () => {
 
-    const wrapper = shallowMount(LossDiagram, {
+    const wrapper = shallowMount(TimeDiagram, {
       props: {
         rawChartData: {
           entries: {
@@ -165,7 +167,7 @@ describe('TimeDiagram.vue', () => {
   });
 
   it('downloads the chart image', () => {
-    const wrapper = shallowMount(LossDiagram, {
+    const wrapper = shallowMount(TimeDiagram, {
       props: {
         rawChartData: {
           entries: {
@@ -210,7 +212,7 @@ describe('RamDiagram.vue', () => {
       }
     }
 
-    const wrapper = shallowMount(LossDiagram, {
+    const wrapper = shallowMount(RamDiagram, {
       props: propsToPass
     })
 
@@ -219,7 +221,7 @@ describe('RamDiagram.vue', () => {
 
   it('computes chart data', () => {
 
-    const wrapper = shallowMount(LossDiagram, {
+    const wrapper = shallowMount(RamDiagram, {
       props: {
         rawChartData: {
           entries: {
@@ -255,7 +257,7 @@ describe('RamDiagram.vue', () => {
   });
 
   it('downloads the chart image', () => {
-    const wrapper = shallowMount(LossDiagram, {
+    const wrapper = shallowMount(RamDiagram, {
       props: {
         rawChartData: {
           entries: {

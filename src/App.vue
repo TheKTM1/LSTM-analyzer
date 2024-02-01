@@ -1,27 +1,10 @@
-<!-- <template>
-  <main class="d-flex flex-wrap justify-content-center m-auto mt-5 col-11">
-    <div class="d-flex w-100 justify-content-between">
-      <div class="frame d-flex justify-content-center align-items-center" style="width:35%">
-        <Imports></Imports>
-      </div>
-      <div class="frame" style="width:60%">
-        <Canvas :labels="labels"></Canvas>
-      </div>
-    </div>
-    <div class="frame w-100 mt-5" style="height:220px;">
-      <ChartInfo></ChartInfo>
-    </div>
-  </main>
-</template> -->
-
 <template>
   <main class="d-flex flex-column align-items-center">
 
-    <div v-if="!imported" class="d-flex align-items-center" style="height:100vh;">
+    <div v-if="!imported" class="full-height d-flex align-items-center">
       <div class="frame">
         <h3>Zaimportuj dane</h3>
 
-        <!-- <div v-if="!imported"> -->
         <div id="searchDataWindow">
           <p class="mt-3">
             Nie zaimportowano jeszcze żadnych danych.
@@ -29,13 +12,12 @@
           <button @click="displayImport">Szukaj plików</button>
         </div>
 
-        <!-- <div v-else> -->
         <div id="importDataWindow" style="display: none;">
           <p class="mt-3">
             Znalezione pliki:
           </p>
-          <div class="p-1" style="max-height: 300px; overflow-y: scroll; background-color: #789;">
-            <div v-for="(fileName, key) in fileNames" :key="key" class="py-2 m-2" style="background-color: #EEF; box-shadow: 2px 2px 2px black;">
+          <div class="import-style p-1">
+            <div v-for="(fileName, key) in fileNames" :key="key" class="file-element py-2 m-2">
               <label class="d-flex justify-content-around">
                 {{ fileName }}
                 <input class="checkbox-input" type="checkbox" v-model="selectedFiles" :value="key">
@@ -59,12 +41,12 @@
       <div class="spacing d-flex w-100 px-3" style="gap: 1rem">
         <div class="w-25">
           <div class="d-flex w-100" style="height: 10%;">
-            <div id="dataSwitch" class="d-flex justify-content-center align-items-center w-50" @click="toggleInput" style="background-color: #DEF; border-top-left-radius: 1rem; border-top-right-radius: 1rem;">Dane</div>
-            <div id="settingsSwitch" class="d-flex justify-content-center align-items-center w-50" @click="toggleSettings" style="background-color: #BCE; border-top-left-radius: 1rem; border-top-right-radius: 1rem;">Ustawienia wykresu</div>
+            <div id="dataSwitch" class="toggle-data d-flex justify-content-center align-items-center w-50" @click="toggleInput">Dane</div>
+            <div id="settingsSwitch" class="toggle-settings d-flex justify-content-center align-items-center w-50" @click="toggleSettings">Ustawienia wykresu</div>
           </div>
           <div class="frame" style="height: 90%; border-top-left-radius: 0; border-top-right-radius: 0;">
 
-            <div id="dataPanel" class="p-1" style="height: 600px; overflow: hidden; overflow-y: scroll; background-color: #BCE; display: flex; flex-direction: column; border: 1px solid #BCE">
+            <div id="dataPanel" class="panel-data p-1">
               <div v-for="(inp, key) in rawChartData.chart1.entries" :key="key" class="frame py-2 m-2">
                 <div class="w-100"> {{ inp.name }} </div>
                 <div class="d-flex justify-content-between">
@@ -269,6 +251,43 @@ body {
   border-radius: 0.5rem;
 }
 
+.full-height {
+  height:100vh;
+}
+
+.import-style {
+  max-height: 300px;
+  overflow-y: scroll;
+  background-color: #789;
+}
+
+.file-element {
+  background-color: #EEF;
+  box-shadow: 2px 2px 2px black;
+}
+
+.toggle-data {
+  background-color: #DEF;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+
+.toggle-settings {
+  background-color: #BCE;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+
+.panel-data {
+  height: 600px;
+  overflow: hidden;
+  overflow-y: scroll;
+  background-color: #BCE;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #BCE
+}
+
 .spacing {
   margin-top: 4rem;
   margin-bottom: 4rem;
@@ -286,3 +305,4 @@ body {
   opacity: 1.0;
 }
 </style>
+
