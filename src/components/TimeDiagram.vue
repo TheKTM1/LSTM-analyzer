@@ -1,7 +1,7 @@
 <template>
-    <main>
-        <h3></h3>
+    <main class="d-flex flex-column align-items-end">
         <Line :data="chartData" :chartTitle="chartTitle" :options="options"/>
+        <button @click="downloadAsImage" style="width: fit-content;">Pobierz wykres</button>
     </main>
 </template>
 
@@ -16,10 +16,11 @@ export default {
     components: { Bar, Line },
     props: {
         rawChartData: Object,
-        chartTitle: Number,
+        chartTitle: String,
     },
     data() {
         return {
+            imageData: '',
             options: {
                 scales: {
                     x: {
@@ -50,6 +51,11 @@ export default {
                         position: 'bottom',
                     },
                 },
+                animation: {
+                    onComplete: (event) => {
+                        this.imageData = event.chart.toBase64Image('image/png', 1);
+                    },
+                },
             },
         }
     },
@@ -77,5 +83,15 @@ export default {
             }
         },
     },
+    methods: {
+        downloadAsImage(){
+            let downloadPrompt = document.createElement('a');
+
+            downloadPrompt.href = this.imageData;
+            downloadPrompt.download = `timeChart.png`;
+            downloadPrompt.click()
+        },
+    },
 }
 </script>
+
