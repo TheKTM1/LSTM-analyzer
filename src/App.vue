@@ -77,10 +77,10 @@
             </div>
 
             <div id="settingsPanel" class="flex-column justify-content-evenly" style="display: none; height: 100%;">
-              <div class="d-flex">
+              <div class="d-flex align-items-center">
                 <label class="w-25 d-flex justify-content-base">Tytuł:</label>
                 <div class="w-75 d-flex justify-content-end">
-                  <input type="text" size="24" v-model="chartTitle">
+                  <textarea type="text" size="24" v-model="chartTitle"></textarea>
                 </div>
               </div>
               <div class="d-flex justify-content-between">
@@ -93,28 +93,19 @@
                   </select>
                 </div>
               </div>
-              <div class="d-flex justify-content-between">
-                <label>Zakres osi X:</label>
-                <div class="w-50">
-                  <input type="range" min="0" max="10000" step="1000" v-model="xRange"> {{ xRange }}
+              <div class="d-flex align-items-center">
+                <label class="w-25 d-flex justify-content-base">Nazwa pobieranego pliku:</label>
+                <div class="w-75 d-flex justify-content-end">
+                  <input type="text" size="24" v-model="downloadTitle">
                 </div>
               </div>
               <div class="d-flex justify-content-between">
-                <label>Interwał osi X:</label>
+                <label>Tryb:</label>
                 <div class="w-50">
-                  <input type="text" size="4" placeholder="1000">
-                </div>
-              </div>
-              <div class="d-flex justify-content-between">
-                <label>Zakres osi Y:</label>
-                <div class="w-50">
-                  <input type="range" min="0" max="200" step="10" v-model="yRange"> {{ yRange }}
-                </div>
-              </div>
-              <div class="d-flex justify-content-between">
-                <label>Interwał osi Y:</label>
-                <div class="w-50">
-                  <input type="text" size="4" placeholder="200">
+                  <select v-model="downloadFormat">
+                    <option value="png">PNG</option>
+                    <option value="jpeg">JPEG</option>
+                  </select>
                 </div>
               </div>
             </div>
@@ -122,13 +113,13 @@
           </div>
         </div>
         <div v-if="chartSelected == 0" class="frame w-75">
-          <LossDiagram :rawChartData="rawChartData.chart1" :chartTitle="chartTitle"></LossDiagram>
+          <LossDiagram :rawChartData="rawChartData.chart1" :chartTitle="chartTitle" :downloadTitle="downloadTitle" :downloadFormat="downloadFormat"></LossDiagram>
         </div>
         <div v-else-if="chartSelected == 1" class="frame w-75">
-          <TimeDiagram :rawChartData="rawChartData.chart1" :chartTitle="chartTitle"></TimeDiagram>
+          <TimeDiagram :rawChartData="rawChartData.chart1" :chartTitle="chartTitle" :downloadTitle="downloadTitle" :downloadFormat="downloadFormat"></TimeDiagram>
         </div>
         <div v-else class="frame w-75">
-          <RamDiagram :rawChartData="rawChartData.chart1" :chartTitle="chartTitle"></RamDiagram>
+          <RamDiagram :rawChartData="rawChartData.chart1" :chartTitle="chartTitle" :downloadTitle="downloadTitle" :downloadFormat="downloadFormat"></RamDiagram>
         </div>
       </div>
 
@@ -162,6 +153,8 @@ export default {
       rawChartData: {
         chart1: {},
       },
+      downloadTitle: '',
+      downloadFormat: 'png',
     }
   },
   methods: {
@@ -211,6 +204,8 @@ export default {
 
       this.rawChartData.chart1 = collectFiles;
       this.imported = true;
+
+      this.nameDownloadFile();
     },
 
     toggleInput() {
@@ -227,6 +222,17 @@ export default {
 
       document.getElementById("dataSwitch").style.backgroundColor = "#BCE";
       document.getElementById("settingsSwitch").style.backgroundColor = "#DEF";
+    },
+
+    nameDownloadFile() {
+      let currentDate = new Date();
+      let day = currentDate.getDate();
+      let month = currentDate.getMonth() + 1;
+      let year = currentDate.getFullYear();
+
+      month = month < 10 ? '0' + month : month;
+
+      this.downloadTitle = `Wykres_${day}-${month}-${year}`;
     },
   },
 }

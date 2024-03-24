@@ -17,6 +17,8 @@ export default {
     props: {
         rawChartData: Object,
         chartTitle: String,
+        downloadTitle: String,
+        downloadFormat: String,
     },
     data() {
         return {
@@ -89,7 +91,7 @@ export default {
             let downloadPrompt = document.createElement('a');
             
             downloadPrompt.href = this.imageData;
-            downloadPrompt.download = `lossChart.png`;
+            downloadPrompt.download = `${this.downloadTitle}.${this.downloadFormat}`;
             downloadPrompt.click()
         },
     },
